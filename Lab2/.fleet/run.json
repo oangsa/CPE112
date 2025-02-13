@@ -1,0 +1,9 @@
+{
+    "configurations": [{
+            "type": "dotnet",
+        "name": "Dotnet configuration",
+        "projectPath": "test.c",
+        "args": []
+        }
+    ]
+}
