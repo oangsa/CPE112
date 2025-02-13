@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 int main(void) {
-    int pos[99999] = {-1};
+    int pos[99999] = {0};
 
     int size;
     int target;
