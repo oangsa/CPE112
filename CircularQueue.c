@@ -51,7 +51,9 @@ void enqueue(int val) {
         return;
     }
 
-    queue[(++rear) % MAX_SIZE] = val;
+    rear = (++rear) % MAX_SIZE;
+
+    queue[rear] = val;
 }
 
 void dequeue() {
@@ -60,5 +62,7 @@ void dequeue() {
         return;
     }
 
-    printf("%d has been dequeue.\n", queue[(++front) % MAX_SIZE]);
+    front = (++front) % MAX_SIZE;
+
+    printf("%d has been dequeue.\n", queue[front]);
 }
