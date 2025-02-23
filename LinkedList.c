@@ -11,7 +11,7 @@ typedef struct Node {
 
 void freeNodes(Nodes** n);
 void searchValue(Nodes* n, int value);
-void insertValue(Nodes** nodes, int value);
+void insertValue(Nodestouch ** nodes, int value);
 void pushValue(Nodes* nodes, int value);
 void pop(Nodes* nodes);
 
