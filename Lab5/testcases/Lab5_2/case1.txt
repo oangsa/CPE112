@@ -1,0 +1,8 @@
+Enqueue 1
+Enqueue 2
+Enqueue 3
+Enqueue 4
+Enqueue 5
+Dequeue
+Enqueue 99
+END

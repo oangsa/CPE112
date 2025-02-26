@@ -1,0 +1,9 @@
+Peek
+Dequeue
+Enqueue 1
+Enqueue 2
+Enqueue 3
+Peek
+Dequeue
+Peek
+END

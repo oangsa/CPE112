@@ -14,6 +14,10 @@ int main() {
         printf("%d is a prime number\n", n);
         return 1;
     }
+    else if (n % 2 == 0 || n % 3 == 0) {
+        printf("%d is not a prime number\n", n);
+        return 1;
+    }
     else {
         for (int i = 5; i * i <= n; i+=6) {
             if (n % i == 0) {

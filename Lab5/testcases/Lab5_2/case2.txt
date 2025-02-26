@@ -1,0 +1,13 @@
+Enqueue 1
+Enqueue 2
+Enqueue 3
+Enqueue 4
+Enqueue 5
+Enqueue 6
+Peek
+Dequeue
+Dequeue
+Enqueue 20
+Peek
+Enqueue 30
+END
