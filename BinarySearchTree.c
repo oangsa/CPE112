@@ -12,6 +12,7 @@ tree* t = NULL;
 
 void insertNode(int data);
 void search(int data);
+void displayBST(struct node* n);
 
 int main() {
 
@@ -25,6 +26,8 @@ int main() {
     search(50);
     search(75);
     search(100);
+
+    displayBST(t);
 
     return 0;
 }
@@ -79,4 +82,13 @@ void search(int value) {
         printf("Not Found!\n");
 
     }
+}
+
+void displayBST(struct node* n) {
+    if (n == NULL) return;
+
+    displayBST(n->left);
+    printf("%d ", n->data);
+    displayBST(n->right);
+
 }
