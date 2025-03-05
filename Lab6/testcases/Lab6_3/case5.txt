@@ -1,0 +1,11 @@
+10
+1
+L 2
+R 3
+LL 4
+LR 5
+RL 6
+RR 7
+LLL 8
+LLR 9
+LRR 10
