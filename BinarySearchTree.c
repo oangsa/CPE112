@@ -20,14 +20,20 @@ int main() {
     insertNode(10);
     insertNode(5);
     insertNode(15);
+    insertNode(16);
+    insertNode(18);
+    insertNode(18);
+    insertNode(17);
+    insertNode(13);
     insertNode(3);
 
     displayBST(t);
     printf("\n");
 
-    deleteNode(100);
+    deleteNode(15);
 
     displayBST(t);
+    printf("\n");
 
 
 
@@ -86,158 +92,100 @@ void search(int value) {
     }
 }
 
-// void deleteNode(int data) {
-//     if (!t) {
-//         printf("Tree is empty\n");
-
-//         return;
-//     }
-//     else {
-//         tree* cur = t;
-//         tree* prev = NULL;
-
-//         while (cur != NULL && cur->data != data) {
-//             prev = cur;
-
-//             if (data < cur->data) cur = cur->left;
-//             else cur = cur->right;
-//         }
-
-//         // printf("Found! '%d'\n", cur->left->data);
-
-//         if (!cur) {
-//             printf("The entered data is not exist in the tree.\n");
-//         }
-//         else {
-//             if (cur->left == NULL && cur->right == NULL) {
-//                 if (!prev) {
-//                     t = NULL;
-//                 }
-//                 else {
-//                     if (prev->left->data == cur->data) {
-//                         prev->left = NULL;
-//                     }
-//                     else {
-//                         prev->right = NULL;
-//                     }
-//                 }
-//             }
-//             else {
-//                 if (!cur->left) {
-//                     if (!prev) {
-//                         t = NULL;
-//                     }
-//                     else {
-//                         if (!prev->right) {
-//                             prev->right = cur->right;
-//                         }
-//                         else {
-//                             prev->left = cur->right;
-//                             free(cur);
-//                             cur = NULL;
-//                         }
-//                     }
-//                 }
-//                 else if (!cur->right) {
-//                     // printf("TEST\n");
-//                     if (!prev) {
-//                         t = NULL;
-//                     }
-//                     else {
-//                         if (!prev->left) {
-//                             prev->left = cur->left;
-//                         }
-//                         else {
-//                             prev->right = cur->left;
-//                             cur = NULL;
-//                         }
-//                     }
-//                 }
-//                 else {
-//                     tree* tmp = cur->right;
-//                     tree* prevTmp = NULL;
-
-//                     while (tmp->left != NULL) {
-//                         prevTmp = tmp;
-//                         tmp = tmp->left;
-//                     }
-
-//                     cur->data = tmp->data;
-//                     if (prevTmp) prevTmp->left = NULL;
-//                     else cur->right = NULL;
-
-//                     free(tmp);
-//                     tmp = NULL;
-//                 }
-//             }
-//         }
-//     }
-// }
-
 void deleteNode(int data) {
-    // GPT Generated Code
-
     if (!t) {
-        printf("Tree is empty\n");
+        printf("Tree is empty.\n");
         return;
     }
 
-    tree* cur = t;
-    tree* prev = NULL;
+    tree* preptr = NULL;
+    tree* root = t;
 
-    while (cur != NULL) {
-        prev = cur;
+    while (root != NULL && root->data != data) {
+        preptr = root;
 
-        if (cur->)
-
-        if (data < cur->data) cur = cur->left;
-        else cur = cur->right;
+        if (data >= root->data) root = root->right;
+        else root = root->left;
     }
 
-    printf("ad\n");
-    printf("%d\n", cur->data);
-
-    if (cur == NULL) {
-        printf("The entered data doesnt exit in the tree\n");
+    if (root == NULL) {
+        printf("Provided data not found.\n");
         return;
     }
 
-    if (!cur->left || !cur->right) {
-        tree* tmp;
-
-        if (!cur->left) tmp = cur->right;
-        else tmp = cur->right;
-
-        if (!prev) {
-            t = tmp;
+    if (root->right == NULL && root->left == NULL) {
+        // Don't have any node on both sides
+        if (preptr == NULL) {
+            // Only root node
+            free(t);
+            t = NULL;
         }
-        else if (cur == prev->left) {
-            prev->left = tmp;
+        else if (preptr->left == root) {
+            preptr->left = NULL;
+            free(root);
         }
         else {
-            prev->right = tmp;
+            preptr->right = NULL;
+            free(root);
         }
-
-        free(cur);
+    }
+    else if (!root->right) {
+        // Only have left side
+        if (preptr == NULL) {
+            // Root node with only left child
+            t = root->left;
+        }
+        else if (preptr->right == root) {
+            preptr->right = root->left;
+        }
+        else {
+            preptr->left = root->left;
+        }
+        free(root);
+        root = NULL;
+    }
+    else if (!root->left) {
+        // Only have right side
+        if (preptr == NULL) {
+            // Root node with only right child
+            t = root->right;
+        }
+        else if (preptr->right == root) {
+            preptr->right = root->right;
+        }
+        else {
+            preptr->left = root->right;
+        }
+        free(root);
+        root = NULL;
     }
     else {
-        tree* tmp = cur->right;
-        tree* prevTmp = cur;
+        // Have both nodes
+        tree* preTmp = NULL;
+        tree* tmp = root->right;
 
-        while(tmp->left != NULL) {
-            prevTmp = tmp;
+        // Find the smallest node in the right subtree
+        while (tmp->left != NULL) {
+            preTmp = tmp;
             tmp = tmp->left;
         }
 
-        if (prevTmp->left == tmp) {
-            prevTmp->left = tmp->right;
+        // Replace the node that will be deleted with the smallest node in the right subtree
+        root->data = tmp->data;
+
+
+        // Delete the smallest node in the right subtree
+        if (preTmp) {
+            // If the smallest node in the right subtree has a left child
+            preTmp->left = tmp->right;
         }
         else {
-            prevTmp->right = tmp->right;
+            // If the smallest node in the right subtree doesn't have a left child
+            root->right = tmp->right;
         }
 
         free(tmp);
-
+        tmp = NULL;
     }
 }
 

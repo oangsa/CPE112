@@ -31,7 +31,7 @@ int main(void) {
 
     while (1) {
 
-        scanf("%s", cmd);
+        scanf(" %s", cmd);
 
         if (!strcmp(cmd, "END")) break;
         else if (!strcmp(cmd, "Peek")) peek();

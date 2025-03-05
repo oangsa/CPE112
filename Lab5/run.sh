@@ -3,8 +3,8 @@
 dir="$1"
 
 green='\033[0;32m'
-resetCol='\033[0m'
 red='\033[0;31m'
+resetCol='\033[0m'
 
 # create the output dir for the testcases
 if [ ! -d "output/$dir" ]; then
@@ -14,15 +14,16 @@ fi
 # Check operating system
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Give permission to execute the program
-
     chmod +x "./$dir"
     program="./$dir"
+
 else
     program="./$dir.exe"
 fi
 
 for f in testcases/"$dir"/*.txt; do
     filename=$(basename "$f")
+
     # create output file if it doesn't exist
     if [ ! -f "output/$dir/$filename" ]; then
         touch "output/$dir/$filename"
@@ -45,7 +46,9 @@ for f in testcases/"$dir"/*.txt; do
 
     if [ $? -eq 0 ]; then
         echo -e "$filename:$green PASSED$resetCol ✅"
+
     else
         echo -e "$filename:$red FAILED$resetCol ❌"
+
     fi
 done
