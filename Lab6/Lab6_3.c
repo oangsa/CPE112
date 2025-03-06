@@ -44,7 +44,7 @@ int main(void) {
         else if (cmd[i] == 'R') r->right = createNode(rootVal);
     }
 
-    preOrder(root);
+    postOrder(root);
 
 }
 

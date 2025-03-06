@@ -14,6 +14,8 @@ void insertNode(int data);
 void search(int data);
 void displayBST(struct node* n);
 void deleteNode(int data);
+void depthFirstSearch(struct node* root);
+int internalNodesCount(struct node* root);
 
 int main() {
 
@@ -27,13 +29,10 @@ int main() {
     insertNode(13);
     insertNode(3);
 
-    displayBST(t);
+    depthFirstSearch(t);
     printf("\n");
 
-    deleteNode(15);
-
-    displayBST(t);
-    printf("\n");
+    printf("Internal Node(s) Count: %d\n", internalNodesCount(t));
 
 
 
@@ -55,10 +54,10 @@ void insertNode(int data) {
 
         while (t != NULL) {
             preptr = t;
-            if (t->data >= data) t = t->left;
+            if (t->data > data) t = t->left;
             else t = t->right;
         }
-        if (preptr->data >= data) preptr->left = newTree;
+        if (preptr->data > data) preptr->left = newTree;
         else preptr->right = newTree;
 
         t = tmp;
@@ -196,4 +195,27 @@ void displayBST(struct node* n) {
     printf("%d ", n->data);
     displayBST(n->right);
 
+}
+
+void depthFirstSearch(struct node* root) {
+    tree* queue[999];
+    int front = 0, rear = -1;
+
+    tree* r = root;
+    queue[++rear] = r;
+
+    while (queue[front] != NULL) {
+        // dequeue
+        printf("%d ", queue[front++]->data);
+
+        if (queue[front - 1]->left != NULL) queue[++rear] = queue[front - 1]->left;
+
+        if (queue[front - 1]->right != NULL) queue[++rear] = queue[front - 1]->right;
+    }
+}
+
+int internalNodesCount(struct node* root) {
+    if (!root) return 0;
+
+    return 1 + internalNodesCount(root->left) + internalNodesCount(root->right);
 }
