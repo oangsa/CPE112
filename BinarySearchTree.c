@@ -29,7 +29,7 @@ int main() {
     insertNode(13);
     insertNode(3);
 
-    depthFirstSearch(t);
+    BFS(t);
     printf("\n");
 
     printf("Internal Node(s) Count: %d\n", internalNodesCount(t));
@@ -197,7 +197,7 @@ void displayBST(struct node* n) {
 
 }
 
-void depthFirstSearch(struct node* root) {
+void BFS(struct node* root) {
     tree* queue[999];
     int front = 0, rear = -1;
 
