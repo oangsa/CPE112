@@ -1,3 +1,5 @@
+// This Graph Implemented Using LinkedList. So, it might be a little differences in term of the add edge algorithm. GL guys
+
 #include <stdio.h>
 #include <stdlib.h>
 
