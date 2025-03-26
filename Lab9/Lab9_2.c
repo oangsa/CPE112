@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<limits.h>
 
 typedef struct _Node {
     int data;
@@ -23,29 +24,31 @@ typedef struct _Graph {
 Node* createNode(int data, int prio);
 
 void enqueue(PriorityQueue* pq, int data, int prio);
-int dequeue(PriorityQueue* pq);
+int* dequeue(PriorityQueue* pq);
 
-void dijkstra(Graph g, int start, int destination);
+void dijkstra(Graph* g, int start, int destination);
 
 int main(void) {
-    PriorityQueue pq = {
-        .list = NULL
-    };
+    Graph* g = (Graph*) malloc(sizeof(Graph));
+    int v, e, start, x, y, destination, w;
 
-    Graph g;
+    scanf(" %d %d", &v, &e);
+    g->vertrices = v;
 
-    int v, e, start, x, y, destination;
-
-    scanf(" %d", &v, &e);
-    g.vertrices = v;
+    for (int i = 0; i < v; i++) {
+        for (int j = 0; j < v; j++) {
+            g->graph[i][j] = 0;
+        }
+    }
 
     for (int i = 0; i < e; i++) {
-        scanf(" %d %d", &x, &y);
-        g.graph[x][y] = 1;
-        g.graph[y][x] = 1;
+        scanf(" %d %d %d", &x, &y, &w);
+        g->graph[x][y] = w;
     }
 
     scanf(" %d %d", &start, &destination);
+
+    dijkstra(g, start, destination);
 
     return 0;
 }
@@ -88,10 +91,12 @@ void enqueue(PriorityQueue* pq, int data, int prio) {
 
 }
 
-int dequeue(PriorityQueue* pq) {
-    if (!pq->list) return -1;
+int* dequeue(PriorityQueue* pq) {
+    int* data = (int*) malloc(sizeof(int) * 2);
+    if (!pq->list) return data;
 
-    int data = pq->list->data;
+    data[0] = pq->list->data;
+    data[1]= pq->list->priority;
     Node* tmp = pq->list;
 
     pq->list = pq->list->next;
@@ -102,7 +107,66 @@ int dequeue(PriorityQueue* pq) {
 }
 
 
-void dijkstra(Graph g, int start, int destination) {
-    int visited[g.vertrices] = {0};
+void dijkstra(Graph* g, int start, int destination) {
+    if (start == destination) {
+        printf("%d \n0 ", start);
+        return;
+    }
+
+    int visited[999] = {0};
+    int dist[999];
+    int p[999];
+
+    PriorityQueue pq = {
+        .list = NULL
+    };
+
+    for (int i = 0; i < g->vertrices; i++) {
+        dist[i] = INT_MAX;
+        p[i] = -1;
+    }
+
+
+    dist[start] = 0;
+    enqueue(&pq, start, 0);
+
+    while (pq.list != NULL) {
+        // [node, dist]
+        int* data = dequeue(&pq);
+        int node = data[0];
+        int cost = data[1];
+        // printf("dd\n");
+
+        for (int i = 0; i < g->vertrices; i++) {
+            if (!g->graph[node][i]) continue;
+
+            if ((g->graph[node][i] + cost) < dist[i]) {
+                dist[i] = cost + g->graph[node][i];
+
+                enqueue(&pq, i, cost + g->graph[node][i]);
+
+                p[i] = node;
+            }
+        }
+    }
+
+    if (dist[destination] == INT_MAX) {
+        printf("-1 ");
+        return;
+    }
+
+    int pa[999];
+    int pl = 0;
+    for (int at = destination; at != -1; at = p[at]) pa[pl++] = at;
+
+    for (int i = pl-1; i >= 0; i--) {
+        printf("%d ", pa[i]);
+    }
+
+    printf("\n%d ", dist[destination]);
+
+    // for (int i = 0; i < g->vertrices; i++) {
+    //     printf("%d : %d\n", i, dist[i]);
+    // }
 
 }
