@@ -29,7 +29,7 @@ int* dequeue(PriorityQueue* pq);
 void dijkstra(Graph* g, int start, int destination);
 
 int main(void) {
-    Graph* g = (Graph*) malloc(sizeof(Graph));
+    Graph *g = (Graph *)malloc(sizeof(Graph));
     int v, e, start, x, y, destination, w;
 
     scanf(" %d %d", &v, &e);
@@ -54,7 +54,7 @@ int main(void) {
 }
 
 Node* createNode(int data, int prio) {
-    Node* newNode = (Node*) malloc(sizeof(Node));
+    Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = data;
     newNode->priority = prio;
     newNode->next = NULL;
@@ -131,7 +131,7 @@ void dijkstra(Graph* g, int start, int destination) {
     enqueue(&pq, start, 0);
 
     while (pq.list != NULL) {
-        // [node, dist]
+        // [node, cost]
         int* data = dequeue(&pq);
         int node = data[0];
         int cost = data[1];
@@ -140,6 +140,8 @@ void dijkstra(Graph* g, int start, int destination) {
         for (int i = 0; i < g->vertrices; i++) {
             if (!g->graph[node][i]) continue;
 
+            // If the new total weight is less than the current weight
+            // then update the weight and add the node to the queue
             if ((g->graph[node][i] + cost) < dist[i]) {
                 dist[i] = cost + g->graph[node][i];
 
