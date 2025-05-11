@@ -3,7 +3,7 @@
 void QuickSort(int arr[], int size, int low, int high);
 
 int main(void) {
-    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int arr[] = {1, 2, 3, 4, 5, 6, 7};
     int size = sizeof(arr)/sizeof(arr[0]);
 
     printf("Array before sorted.\n");
