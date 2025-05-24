@@ -10,34 +10,49 @@ void printArray(int arr[], int size) {
         printf("%d ", arr[i]);
 }
 
-int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    
-    int i = low - 1;
+int medianOfThree(int arr[], int f, int e) {
+    int mid = ((e - f) / 2) + 1;
+    int a = arr[f];
+    int b = arr[mid];
+    int c = arr[e];
 
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            int tmp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tmp;
-        }
-    }
-    
-    int tmp = arr[i + 1];
-    arr[i+1] = arr[high];
-    arr[high] = tmp;
-    return i + 1;
+    // returns the index
+    if ((a > b) ^ (a > c))
+        return f;
+    else if ((b < a) ^ (b < c))
+        return mid;
+    else
+        return e;
 }
 
-// The QuickSort function implementation
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        int pi = partition(arr, low, high);
+void quickSort(int arr[], int size, int low, int high) {
+    if (high == -1) high = size - 1;
+    if (low >= high) return;
 
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+    int pivotIndex = medianOfThree(arr, low, high);
+    int pivot = arr[pivotIndex];
+
+    int temp = arr[pivotIndex];
+    arr[pivotIndex] = arr[high];
+    arr[high] = temp;
+
+    int i = low;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+        }
     }
+
+    temp = arr[i];
+    arr[i] = arr[high];
+    arr[high] = temp;
+
+    quickSort(arr, size, low, i - 1);
+    quickSort(arr, size, i + 1, high);
 }
 
 int main() {
@@ -53,7 +68,7 @@ int main() {
         }
 
         int n = MAX_SIZE;
-        int arr[n];
+        int arr[MAX_SIZE];
 
         // file reading process
         for (int i = 0; i < MAX_SIZE; i++)
@@ -68,7 +83,7 @@ int main() {
         printf("Start sorting.....");
         start = clock();
 
-        quickSort(arr, 0, n - 1); // Change Sorting Algorithm right here
+        quickSort(arr, n, 0, n - 1); // Change Sorting Algorithm right here
 
         end = clock();
         double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
