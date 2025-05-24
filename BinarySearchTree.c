@@ -34,8 +34,6 @@ int main() {
 
     printf("Internal Node(s) Count: %d\n", internalNodesCount(t));
 
-
-
     return 0;
 }
 
